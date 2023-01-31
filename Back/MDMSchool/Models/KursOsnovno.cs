@@ -17,11 +17,11 @@ namespace Models
 
         public String KratakOpis { get; set; }
 
-        public MongoDBRef  Profesor { get; set; }
-        public MongoDBRef Kategorija { get; set; }
-        public MongoDBRef DetaljnijeKurs { get; set; }
+        public Profesor  Profesor { get; set; }
+        public Kategorija Kategorija { get; set; }
+        public KursDetaljno DetaljnijeKurs { get; set; }
         public List<MongoDBRef> Rezervacije { get; set; }
-        public List<MongoDBRef> Grupe { get; set; }
+        public List<Grupa> Grupe { get; set; }
         
     }
 }

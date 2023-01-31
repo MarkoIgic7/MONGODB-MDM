@@ -18,8 +18,8 @@ namespace Models
         public String Kontakt { get; set; }
         public String Opis { get; set; }
 
-        public List<MongoDBRef> Kategorije { get; set; }
-        public List<MongoDBRef> Profesori { get; set; }
+        public List<Kategorija> Kategorije { get; set; }
+        public List<Profesor> Profesori { get; set; }
         //public List<MongoDBRef> Kursevi { get; set; }
         
     }

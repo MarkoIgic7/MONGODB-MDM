@@ -13,7 +13,7 @@ namespace Models
         public String Id { get; set; }
 
         public String Uzrast { get; set; }
-        public List<MongoDBRef> Kursevi { get; set; }
-        public MongoDBRef Skola { get; set; }
+        public List<KursOsnovno> Kursevi { get; set; }
+        public Skola Skola { get; set; }
     }
 }
