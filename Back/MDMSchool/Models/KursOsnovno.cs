@@ -16,7 +16,6 @@ namespace Models
         public String Jezik { get; set; }
 
         public String KratakOpis { get; set; }
-
         public Profesor  Profesor { get; set; }
         public Kategorija Kategorija { get; set; }
         public KursDetaljno DetaljnijeKurs { get; set; }

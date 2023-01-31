@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace Models
 {
@@ -14,7 +15,9 @@ namespace Models
         public int Cena { get; set; }
         public String DuziOpis { get; set; }
         public List<String> Termini { get; set; }
-
+        
+        [JsonIgnore]
+        [BsonIgnore]
         public KursOsnovno OsnovnoKurs { get; set; }
     }
 }
