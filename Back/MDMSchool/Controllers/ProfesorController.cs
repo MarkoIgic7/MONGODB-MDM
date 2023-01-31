@@ -37,20 +37,20 @@ namespace MDMSchool.Controllers
 
         }
       
-       /* [HttpGet]
-        [Route("PreuzmiSveKategorije")]
-        public async Task<ActionResult> PreuzmiSveKategorije()
+        [HttpGet]
+        [Route("PreuzmiSveProfesore")]
+        public async Task<ActionResult> PreuzmiSveProfesore()
         {
-            var kategorije=KategorijaCollection.Find(_=>true).ToList();
-            if(kategorije.Count!=0)
+            var profesori=ProfesorCollection.Find(_=>true).ToList();
+            if(profesori.Count!=0)
             {
-                return Ok(kategorije);
+                return Ok(profesori);
             }
             else{
-                return BadRequest("Ne postoje kategorije u bazi!");
+                return BadRequest("Ne postoje profesori u bazi!");
             }
             
-        }*/
+        }
 
         
     }

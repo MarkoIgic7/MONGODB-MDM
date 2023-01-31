@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace Models
 {
+    [BsonIgnoreExtraElements]
     public class KursOsnovno
     {
         [BsonId]
@@ -17,6 +19,7 @@ namespace Models
 
         public String KratakOpis { get; set; }
         public Profesor  Profesor { get; set; }
+
         public Kategorija Kategorija { get; set; }
         public KursDetaljno DetaljnijeKurs { get; set; }
         public List<MongoDBRef> Rezervacije { get; set; }

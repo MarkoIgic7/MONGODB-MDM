@@ -67,18 +67,43 @@ namespace MDMSchool.Controllers
             return Ok(k);
 
         }
-      
+        
         [HttpGet]
-        [Route("PreuzmiSveKurseveKategorije/{idKat}")]
-        public async Task<ActionResult> PreuzmiSveKurseveKategorije(string idKat)
+        [Route("PreuzmiSveJezike")]
+        public async Task<ActionResult> PreuzmiSveJezike()
         {
-             /* var query1 = from kurs in KursCollection.AsQueryable<KursOsnovno>()
-                        where kurs.Kategorija._id == idKat
-                        select kurs;*/
-            var ret=KursCollection.Find(k=>k.Kategorija.Id==idKat).ToList();
-            return Ok(ret);
-           
-            
+             var kursevi =  KursCollection.Find(_=>true).ToList();
+             List<String> jezici=new List<String>();
+             foreach(var k in kursevi)
+             {
+                jezici.Add(k.Jezik);
+             }
+             return Ok(jezici.Distinct());
+
+        }
+
+        [HttpGet]
+        [Route("PreuzmiSveKurseve/{idKat}/{jezik}")]
+        public async Task<ActionResult> PreuzmiSveKurseve(string idKat, string jezik)
+        {
+            if(idKat=="nema")
+            {
+                return BadRequest("Morate uneti kategoriju!");
+            }
+            else if(jezik=="nema")
+            {
+                var kat=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
+                var kursevi=KursCollection.Find(p=>p.Kategorija==kat).ToList();
+                return Ok(kursevi);
+            }
+            else{
+                var kat=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
+                var kursevi=KursCollection.Find(p=>p.Kategorija==kat && p.Jezik==jezik).ToList();
+                return Ok(kursevi);
+
+            }
+
+
         }
 
         
