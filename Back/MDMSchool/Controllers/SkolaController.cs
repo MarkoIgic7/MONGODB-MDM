@@ -36,6 +36,29 @@ namespace MDMSchool.Controllers
 
 
         }
+      
+        [HttpGet]
+        [Route("PreuzmiSkolu")]
+        public async Task<ActionResult> PreuzmiSkolu()
+        {
+            var skola=SkolaCollection.Find(_=>true).FirstOrDefault();
+            if(skola!=null)
+            {
+                return Ok(skola);
+            }
+            else{
+                return BadRequest("Ne postoji skola u bazi!");
+            }
+            
+        }
+
+        [HttpDelete]
+        [Route("ObrisiSkolu")]
+        public async Task<ActionResult> ObrisiSkolu()
+        {
+            SkolaCollection.DeleteOne(_=>true);
+            return Ok("Obrisana skola");
+        }
         
     }
 }

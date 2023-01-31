@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
 {
     public class Kategorija
     {
-        public ObjectId _id { get; set; }
+        [BsonId]
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public String Id { get; set; }
 
         public String Uzrast { get; set; }
         public List<MongoDBRef> Kursevi { get; set; }

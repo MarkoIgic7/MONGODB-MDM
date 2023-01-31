@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Bson.Serialization.Attributes;
+
 
 namespace Models
 {
     public class Skola
 
     {
-        public ObjectId _id { get; set; }
+        [BsonId]
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public String Id { get; set; }
         public String Naziv { get; set; }
         public String Lokacija { get; set; }
         public String Kontakt { get; set; }
