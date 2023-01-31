@@ -19,8 +19,9 @@ namespace Models
 
         public MongoDBRef  Profesor { get; set; }
         public MongoDBRef Kategorija { get; set; }
-        public MongoDBRef DetaljinijeKurs { get; set; }
+        public MongoDBRef DetaljnijeKurs { get; set; }
         public List<MongoDBRef> Rezervacije { get; set; }
+        public List<MongoDBRef> Grupe { get; set; }
         
     }
 }
