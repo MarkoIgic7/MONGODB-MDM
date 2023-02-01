@@ -32,7 +32,23 @@ namespace MDMSchool.Controllers
                 u.Mail = username;
                 u.Password = password;
                 UserCollection.InsertOne(u);
-                return Ok(u);
+                if(u.Mail=="admin@gmail.com")
+                {
+                    return Ok(new{
+                    Uloga = "Admin",
+                    Mail = u.Mail,
+                    Password = u.Password
+                    });
+                }
+                else
+                {
+                    return Ok(new{
+                    Uloga = "Korisnik",
+                    Mail = u.Mail,
+                    Password = u.Password
+                });
+                }
+                
             }
             else
             {
@@ -55,7 +71,19 @@ namespace MDMSchool.Controllers
             }
             else
             {
-                return Ok(m);
+                if(m.Mail=="admin@gmail.com")
+                {
+                    return Ok(new{
+                    Uloga = "Admin",
+                    Mail = m.Mail,
+                    Password = m.Password
+                });
+                }
+                return Ok(new{
+                    Uloga = "Korisnik",
+                    Mail = m.Mail,
+                    Password = m.Password
+                });
             }
 
         }
