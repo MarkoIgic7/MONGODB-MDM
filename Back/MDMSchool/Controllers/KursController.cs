@@ -35,9 +35,11 @@ namespace MDMSchool.Controllers
         }
 
         [HttpPost]
-        [Route("DodajKurs/{naziv}/{jezik}/{kratakOpis}/{idKat}/{idProf}")]
-        public async Task<ActionResult> DodajKurs(String naziv, string jezik, string kratakOpis, string idKat, string idProf, int cena, string duziOpis, string termini)
+        [Route("DodajKurs/{naziv}/{jezik}/{kratakOpis}/{idKat}/{idProf}/{cena}/{duziOpis}/{termini}")]
+        public async Task<ActionResult> DodajKurs(String naziv, string jezik, string kratakOpis, string idKat, string idProf, string cena, string duziOpis, string termini)
         {
+            int c = int.Parse(cena);
+
             KursOsnovno k = new KursOsnovno();
             k.Naziv = naziv;
             k.Jezik=jezik;
@@ -50,7 +52,7 @@ namespace MDMSchool.Controllers
             k.Profesor=profesor;
 
             KursDetaljno kd=new KursDetaljno();
-            kd.Cena=cena;
+            kd.Cena=c;
             kd.DuziOpis=duziOpis;
             kd.Termini=new List<String>();
             string[] arr=termini.Split('#');
