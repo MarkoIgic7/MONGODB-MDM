@@ -18,12 +18,18 @@ namespace Models
         public String Jezik { get; set; }
 
         public String KratakOpis { get; set; }
-        public Profesor  Profesor { get; set; }
+        public Profesor Profesor { get; set; }
 
         public Kategorija Kategorija { get; set; }
         public KursDetaljno DetaljnijeKurs { get; set; }
         public List<MongoDBRef> Rezervacije { get; set; }
         public List<Grupa> Grupe { get; set; }
         
+
+        public KursOsnovno()
+        {
+
+            Rezervacije = new List<MongoDBRef>();
+        }
     }
 }

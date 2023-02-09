@@ -31,7 +31,7 @@ namespace MDMSchool.Controllers
             KategorijaCollection.InsertOne(k);
 
             return Ok("Dodata kategorija");
-
+            
         }
       
         [HttpGet]

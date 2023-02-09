@@ -15,5 +15,10 @@ namespace Models
         public String  Password { get; set; }
         
         public List<MongoDBRef> Rezervacije { get; set; }
+
+        public User()
+        {
+            Rezervacije = new List<MongoDBRef>();
+        }
     }
 }

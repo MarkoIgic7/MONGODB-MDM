@@ -18,5 +18,6 @@ namespace Models
 
         public List<KursOsnovno> Kursevi { get; set; }
         public Skola Skola { get; set; }
+
     }
 }

@@ -45,10 +45,9 @@ namespace MDMSchool.Controllers
             k.Jezik=jezik;
             k.KratakOpis=kratakOpis;
             
-            var kategorija=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
+            //var kategorija=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
             var profesor=ProfesorCollection.Find(p=>p.Id==idProf).FirstOrDefault();
 
-            k.Kategorija=kategorija;
             k.Profesor=profesor;
 
             KursDetaljno kd=new KursDetaljno();
@@ -60,12 +59,27 @@ namespace MDMSchool.Controllers
             {
                 kd.Termini.Add(a);
             }
-            kd.OsnovnoKurs=k;
+            //kd.OsnovnoKurs=k;
             KursDetaljnoCollection.InsertOne(kd);
 
             k.DetaljnijeKurs=kd;
-            KursCollection.InsertOne(k);
+            await KursCollection.InsertOneAsync(k);
 
+
+
+            
+            //kategorija.Kursevi.Add(k);
+            //await KategorijaCollection.ReplaceOneAsync(b => b.Id == kategorija.Id, kategorija);
+            //var kategorijaFilter = Builders<Kategorija>.Filter.Eq(b => b.Id, kategorija.Id);
+            //var update1 = Builders<Kategorija>.Update.AddToSet(b => b.Kursevi, k);
+            //KategorijaCollection.UpdateOne(kategorijaFilter,update1);
+
+            //profesor.Kursevi.Add(k);
+            //ProfesorCollection.ReplaceOne(b => b.Id==profesor.Id,profesor);
+            //var profesorFilter = Builders<Profesor>.Filter.Eq(b => b.Id,profesor.Id);
+            //var update2 = Builders<Profesor>.Update.Add(b => b.Kursevi, k);
+            //ProfesorCollection.UpdateOne(profesorFilter,update2);
+            
             return Ok(k);
 
         }

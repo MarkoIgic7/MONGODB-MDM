@@ -16,8 +16,8 @@ namespace Models
         public String DuziOpis { get; set; }
         public List<String> Termini { get; set; }
         
-        [JsonIgnore]
-        [BsonIgnore]
-        public KursOsnovno OsnovnoKurs { get; set; }
+        //[JsonIgnore]
+        //[BsonIgnore]
+        //public KursOsnovno OsnovnoKurs { get; set; }
     }
 }
