@@ -22,8 +22,8 @@ namespace MDMSchool.Controllers
         }
 
         [HttpPost]
-        [Route("DodajProfesor/{ime}/{prezime}/{podaci}/{strucnaSprema}")]
-        public async Task<ActionResult> DodajProfesor(String ime, String prezime, String podaci, String strucnaSprema)
+        [Route("DodajProfesora/{ime}/{prezime}/{podaci}/{strucnaSprema}")]
+        public async Task<ActionResult> DodajProfesora(String ime, String prezime, String podaci, String strucnaSprema)
         {
             Profesor k = new Profesor();
             k.Ime = ime;

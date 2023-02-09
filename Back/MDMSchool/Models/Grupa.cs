@@ -13,7 +13,6 @@ namespace Models
         public String Naziv { get; set; }
         public int TrenutniBroj { get; set; }
         public int MaximalniBroj { get; set; }
-
         public KursOsnovno OsnovnoKurs { get; set; }
         
     }

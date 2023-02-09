@@ -80,6 +80,7 @@ namespace MDMSchool.Controllers
                 });
                 }
                 return Ok(new{
+                    Id=m.Id,
                     Uloga = "Korisnik",
                     Mail = m.Mail,
                     Password = m.Password

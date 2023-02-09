@@ -32,6 +32,8 @@ namespace MDMSchool.Controllers
             UserCollection = col2;
             var coll3 = db.GetCollection<KursOsnovno>("Kurs");
             KursCollection = coll3;
+            var coll4 = db.GetCollection<Grupa>("Grupa");
+            GrupaCollection = coll4;
             
         }
 
@@ -47,38 +49,42 @@ namespace MDMSchool.Controllers
             var user   = UserCollection.Find(userFilter).FirstOrDefault();
 
             bool imaMesta = false;
-            foreach(Grupa g in kurs.Grupe)
+            var grupe = GrupaCollection.Find(g=>g.OsnovnoKurs==kurs).ToList();
+            foreach(var g in grupe)
             {
                 if(g.TrenutniBroj<g.MaximalniBroj)
                     {
                         imaMesta = true;
+                        g.TrenutniBroj=g.TrenutniBroj+1;
+                        var filter = Builders<Grupa>.Filter.Eq("Id",g.Id);
+                        var update = Builders<Grupa>.Update.Set("TrenutniBroj",g.TrenutniBroj);
+                        GrupaCollection.UpdateOne(filter,update);
                         break;
                     }
             }
             if(imaMesta)
             {
+                Rezervacija r = new Rezervacija();
+                r.Korisnik = new MongoDBRef("Korisnik",user.Id);
+                r.OsnovniKurs = new MongoDBRef("OsnovniKurs", kurs.Id);
+                r.VremeRezervacije = DateTime.Now;
+                r.Status = true;
+
+                r.OsnovniKurs = new MongoDBRef("Kurs",kurs.Id);
+                r.Korisnik = new MongoDBRef("Korisnik", user.Id);
+
+                RezervacijaCollection.InsertOne(r);
+
+
+                var update = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                UserCollection.UpdateOne(userFilter, update);
+
                 
-            Rezervacija r = new Rezervacija();
-            r.Korisnik = new MongoDBRef("Korisnik",user.Id);
-            r.OsnovniKurs = new MongoDBRef("OsnovniKurs", kurs.Id);
-            r.VremeRezervacije = DateTime.Now;
-            r.Status = true;
-
-            r.OsnovniKurs = new MongoDBRef("Kurs",kurs.Id);
-            r.Korisnik = new MongoDBRef("Korisnik", user.Id);
-
-            RezervacijaCollection.InsertOne(r);
-
-
-            var update = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-            UserCollection.UpdateOne(userFilter, update);
-
-            
-            var update1 = Builders<KursOsnovno>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-            KursCollection.UpdateOne(kursFilter, update1);
-            
-            
-            return Ok("Dodata rezervacija");
+                var update1 = Builders<KursOsnovno>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                KursCollection.UpdateOne(kursFilter, update1);
+                
+                
+                return Ok("Dodata rezervacija");
             }
             else
             {
@@ -104,6 +110,19 @@ namespace MDMSchool.Controllers
                     RezervacijaCollection.UpdateOne(filter,update);
 
                 }
+
+                //var korisnik=UserCollection.FindOne(Builders<User>.Filter.Eq("_id", mongoDbRef.Id));
+
+                var korisnik = await UserCollection.Find(a => a.Id == r.Korisnik.Id.ToString()).FirstOrDefaultAsync();
+                var kurs = await KursCollection.Find(a => a.Id == r.OsnovniKurs.Id.ToString()).FirstOrDefaultAsync();
+
+                lista.Add(new{
+                    Id=r.Id,
+                    Status  = r.Status,
+                    Korisnik=korisnik.Mail,
+                    Kurs=kurs.Naziv
+                });
+
                  //var kursFilter = Builders<KursOsnovno>.Filter.Eq(a => a.Id, idKurs);
             //var kurs = KursCollection.Find(kursFilter).FirstOrDefault();
             
@@ -113,12 +132,16 @@ namespace MDMSchool.Controllers
             }
             
             
-            return Ok(rezervacije.Select( r => 
-            new{
-                Id = r.Id,
-                Status  = r.Status,
-                
-            }));
+            return Ok(lista);
+        }
+
+        [HttpDelete]
+        [Route("ObrisiRezervaciju/{idRezervacije}")]
+        public async Task<ActionResult> ObrisiRezervaciju(String idRezervacije)
+        {
+            var filter = Builders<Rezervacija>.Filter.Eq("Id",idRezervacije);
+            await RezervacijaCollection.DeleteOneAsync(filter);
+            return Ok("Obrisana rezervacija");
         }
     }
 }

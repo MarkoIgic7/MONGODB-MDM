@@ -34,7 +34,7 @@ namespace MDMSchool.Controllers
             g.OsnovnoKurs = k;
             GrupaCollection.InsertOne(g);
 
-            k.Grupe.Add(g);
+            //k.Grupe.Add(g);
             return Ok(g);
 
         }

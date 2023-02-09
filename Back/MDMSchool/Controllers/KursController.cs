@@ -45,9 +45,10 @@ namespace MDMSchool.Controllers
             k.Jezik=jezik;
             k.KratakOpis=kratakOpis;
             
-            //var kategorija=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
+            var kategorija=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
             var profesor=ProfesorCollection.Find(p=>p.Id==idProf).FirstOrDefault();
-
+            
+            k.Kategorija=kategorija;
             k.Profesor=profesor;
 
             KursDetaljno kd=new KursDetaljno();

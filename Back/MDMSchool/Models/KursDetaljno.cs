@@ -14,6 +14,11 @@ namespace Models
         public String Id { get; set; }
         public int Cena { get; set; }
         public String DuziOpis { get; set; }
+
+        //ja bih rekla da grupe treba da imaju termine a ne ovde da stoje, i da se prilikom rezervacije bira grupa za koju korisnik zeli
+        //da rezervise mesto (znaci da dodamo referencu na grupu u rezervaciji i onda se tacno odredjenoj grupi povecava ili smanjuje broj polaznika)
+        //na frontu onda da kad otvorimo kurs mozemo da pregledamo sve grupe i pored svake da stoji mogucnost rezervacije
+        //onda u sustini rezervacija nije vezana za kurs nego za grupu (sto i daje vise smisla postojanju grupe kao klase)
         public List<String> Termini { get; set; }
         
         //[JsonIgnore]
