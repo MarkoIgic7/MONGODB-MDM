@@ -107,9 +107,21 @@ namespace MDMSchool.Controllers
         public async Task<ActionResult> PreuzmiCeoKurs(string idKursa)
         {
 
-            //var kursOsnovno=KursCollection.Find(p=>p.Kurs.Id==idKursa).FirstOrDefault();
+            //var kursOsnovno=KursCollection.Find(p=>p.Id==idKursa).FirstOrDefault();
 
-            return Ok();
+            //ako bi se vratilo samo ovo(kursOsnovno odozgo) ne bi vratio kategoriju zbog JsonIgnore-a
+            //zbog toga sam stavio anonomni tip
+            var kurs = await KursCollection.Find(k => k.Id == idKursa).FirstOrDefaultAsync();
+
+            return Ok(new{
+                Id = kurs.Id,
+                Naziv = kurs.Naziv,
+                Cena = kurs.Cena,
+                DuziOpis = kurs.DuziOpis,
+                KratakOpis = kurs.KratakOpis,
+                IdKategorije = kurs.Kategorija.Id,
+                Uzrast = kurs.Kategorija.Uzrast
+            });
 
         }
 

@@ -43,33 +43,56 @@ namespace MDMSchool.Controllers
             
             var userFilter = Builders<User>.Filter.Eq(b => b.Id, idKorisnik);
             var user   = UserCollection.Find(userFilter).FirstOrDefault();
+
+            var rezervacije = RezervacijaCollection.Find(_=>true).ToList();
+            Boolean postoji = false;
         
             if(grupa.TrenutniBroj<grupa.MaximalniBroj)
             {
-                    grupa.TrenutniBroj=grupa.TrenutniBroj+1;
-                    var filter = Builders<Grupa>.Filter.Eq("Id",grupa.Id);
-                    var update = Builders<Grupa>.Update.Set("TrenutniBroj",grupa.TrenutniBroj);
-                    GrupaCollection.UpdateOne(filter,update);
+                    //ovde da se doda provera da li je taj korisnik vec napravio rezervaciju za istu grupu
+                    foreach(var r1 in rezervacije)
+                    {
+                        var user1 = await UserCollection.Find(u =>u.Id==r1.Korisnik.Id.ToString()).FirstOrDefaultAsync();
+                        var grupa1 = await GrupaCollection.Find(g => g.Id == r1.Grupa.Id.ToString()).FirstOrDefaultAsync();
+                        if(user1!=null && grupa1!=null)
+                        {
+                            postoji = true;
+                            break;
+                        }
+                    }
+                    if(postoji==false)
+                    {
+                        grupa.TrenutniBroj=grupa.TrenutniBroj+1;
+                        var filter = Builders<Grupa>.Filter.Eq("Id",grupa.Id);
+                        var update = Builders<Grupa>.Update.Set("TrenutniBroj",grupa.TrenutniBroj);
+                        GrupaCollection.UpdateOne(filter,update);
 
-                    Rezervacija r = new Rezervacija();
-                    r.Korisnik = new MongoDBRef("Korisnik",user.Id);
-                    r.Grupa = new MongoDBRef("Grupa", grupa.Id);
-                    r.VremeRezervacije = DateTime.Now;
-                    r.Status = true;
+                        Rezervacija r = new Rezervacija();
+                        r.Korisnik = new MongoDBRef("Korisnik",user.Id);
+                        r.Grupa = new MongoDBRef("Grupa", grupa.Id);
+                        r.VremeRezervacije = DateTime.Now;
+                        r.Status = true;
 
-                    RezervacijaCollection.InsertOne(r);
+                        RezervacijaCollection.InsertOne(r);
 
 
-                    var update2 = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-                    UserCollection.UpdateOne(userFilter, update2);
+                        var update2 = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                        UserCollection.UpdateOne(userFilter, update2);
 
+                        
+                        var update1 = Builders<Grupa>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                        GrupaCollection.UpdateOne(grupaFilter, update1);
+                        
+                        
+                        return Ok("Dodata rezervacija");
+            
+
+                    }
+                    else
+                    {
+                        return BadRequest("Korisnik je vec uputio rezervaciju za ovu grupu");
+                    }
                     
-                    var update1 = Builders<Grupa>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-                    GrupaCollection.UpdateOne(grupaFilter, update1);
-                    
-                    
-                    return Ok("Dodata rezervacija");
-           
                 
             }
             else
