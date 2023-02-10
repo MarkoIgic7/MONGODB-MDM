@@ -16,23 +16,17 @@ namespace Models
 
         public String Naziv { get; set; }
         public String Jezik { get; set; }
+        public int Cena { get; set; }
+        public String DuziOpis { get; set; }
 
         public String KratakOpis { get; set; }
 
-        [JsonIgnore]
-        public Profesor Profesor { get; set; }
-        //ispada da jedan isti kurs ne moze da drzi vise profesora?
+        public List<Spoj> Spojevi { get; set; }
+
         [JsonIgnore]
         public Kategorija Kategorija { get; set; }
-        public KursDetaljno DetaljnijeKurs { get; set; }
-        public List<MongoDBRef> Rezervacije { get; set; }
-        public List<Grupa> Grupe { get; set; }
-        
 
-        public KursOsnovno()
-        {
-
-            Rezervacije = new List<MongoDBRef>();
-        }
+   
+    
     }
 }

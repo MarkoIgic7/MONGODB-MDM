@@ -17,8 +17,6 @@ namespace MDMSchool.Controllers
     {
         private IMongoCollection<Rezervacija> RezervacijaCollection;
         private IMongoCollection<User> UserCollection;
-        private IMongoCollection<KursOsnovno> KursCollection;
-
         private IMongoCollection<Grupa> GrupaCollection;
 
         private IMongoDatabase db;
@@ -30,65 +28,53 @@ namespace MDMSchool.Controllers
             RezervacijaCollection = collection;
             var col2 = db.GetCollection<User>("Korisnici");
             UserCollection = col2;
-            var coll3 = db.GetCollection<KursOsnovno>("Kurs");
-            KursCollection = coll3;
             var coll4 = db.GetCollection<Grupa>("Grupa");
             GrupaCollection = coll4;
             
         }
 
         [HttpPost]
-        [Route("DodajRezervaciju/{idKurs}/{idKorisnik}")]
-        public async Task<ActionResult> DodajRezervaciju(String idKurs,String idKorisnik)
+        [Route("DodajRezervaciju/{idGrupe}/{idKorisnik}")]
+        public async Task<ActionResult> DodajRezervaciju(String idGrupe,String idKorisnik)
         {
 
-            var kursFilter = Builders<KursOsnovno>.Filter.Eq(a => a.Id, idKurs);
-            var kurs = KursCollection.Find(kursFilter).FirstOrDefault();
+            var grupaFilter = Builders<Grupa>.Filter.Eq(a => a.Id, idGrupe);
+            var grupa = GrupaCollection.Find(grupaFilter).FirstOrDefault();
             
             var userFilter = Builders<User>.Filter.Eq(b => b.Id, idKorisnik);
             var user   = UserCollection.Find(userFilter).FirstOrDefault();
-
-            bool imaMesta = false;
-            var grupe = GrupaCollection.Find(g=>g.OsnovnoKurs==kurs).ToList();
-            foreach(var g in grupe)
+        
+            if(grupa.TrenutniBroj<grupa.MaximalniBroj)
             {
-                if(g.TrenutniBroj<g.MaximalniBroj)
-                    {
-                        imaMesta = true;
-                        g.TrenutniBroj=g.TrenutniBroj+1;
-                        var filter = Builders<Grupa>.Filter.Eq("Id",g.Id);
-                        var update = Builders<Grupa>.Update.Set("TrenutniBroj",g.TrenutniBroj);
-                        GrupaCollection.UpdateOne(filter,update);
-                        break;
-                    }
-            }
-            if(imaMesta)
-            {
-                Rezervacija r = new Rezervacija();
-                r.Korisnik = new MongoDBRef("Korisnik",user.Id);
-                r.OsnovniKurs = new MongoDBRef("OsnovniKurs", kurs.Id);
-                r.VremeRezervacije = DateTime.Now;
-                r.Status = true;
+                    grupa.TrenutniBroj=grupa.TrenutniBroj+1;
+                    var filter = Builders<Grupa>.Filter.Eq("Id",grupa.Id);
+                    var update = Builders<Grupa>.Update.Set("TrenutniBroj",grupa.TrenutniBroj);
+                    GrupaCollection.UpdateOne(filter,update);
 
-                r.OsnovniKurs = new MongoDBRef("Kurs",kurs.Id);
-                r.Korisnik = new MongoDBRef("Korisnik", user.Id);
+                    Rezervacija r = new Rezervacija();
+                    r.Korisnik = new MongoDBRef("Korisnik",user.Id);
+                    r.Grupa = new MongoDBRef("Grupa", grupa.Id);
+                    r.VremeRezervacije = DateTime.Now;
+                    r.Status = true;
 
-                RezervacijaCollection.InsertOne(r);
+                    RezervacijaCollection.InsertOne(r);
 
 
-                var update = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-                UserCollection.UpdateOne(userFilter, update);
+                    var update2 = Builders<User>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                    UserCollection.UpdateOne(userFilter, update2);
 
+                    
+                    var update1 = Builders<Grupa>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
+                    GrupaCollection.UpdateOne(grupaFilter, update1);
+                    
+                    
+                    return Ok("Dodata rezervacija");
+           
                 
-                var update1 = Builders<KursOsnovno>.Update.AddToSet(b => b.Rezervacije, new MongoDBRef("Rezervacija", r.Id));
-                KursCollection.UpdateOne(kursFilter, update1);
-                
-                
-                return Ok("Dodata rezervacija");
             }
             else
             {
-                return BadRequest("Nazalost, sve grupe su pune ");
+                return BadRequest("Nazalost, u ovoj grupi nema mesta ");
             }
 
         }
@@ -114,13 +100,13 @@ namespace MDMSchool.Controllers
                 //var korisnik=UserCollection.FindOne(Builders<User>.Filter.Eq("_id", mongoDbRef.Id));
 
                 var korisnik = await UserCollection.Find(a => a.Id == r.Korisnik.Id.ToString()).FirstOrDefaultAsync();
-                var kurs = await KursCollection.Find(a => a.Id == r.OsnovniKurs.Id.ToString()).FirstOrDefaultAsync();
+                var grupa = await GrupaCollection.Find(a => a.Id == r.Grupa.Id.ToString()).FirstOrDefaultAsync();
 
                 lista.Add(new{
                     Id=r.Id,
                     Status  = r.Status,
                     Korisnik=korisnik.Mail,
-                    Kurs=kurs.Naziv
+                    Grupa=grupa.Naziv
                 });
 
                  //var kursFilter = Builders<KursOsnovno>.Filter.Eq(a => a.Id, idKurs);
@@ -139,9 +125,18 @@ namespace MDMSchool.Controllers
         [Route("ObrisiRezervaciju/{idRezervacije}")]
         public async Task<ActionResult> ObrisiRezervaciju(String idRezervacije)
         {
-            //OVDE TREBA DA SE SMANJUJE TRENUTNI BROJ NEKOJ GRUPI 
-            var filter = Builders<Rezervacija>.Filter.Eq("Id",idRezervacije);
-            await RezervacijaCollection.DeleteOneAsync(filter);
+            //na frontu nek stavi da mogu da se obrisu samo rezervacije sa statusom false i onda ovde nema provere
+            var r=RezervacijaCollection.Find(r1=>r1.Id==idRezervacije).FirstOrDefault();
+            var grupa = await GrupaCollection.Find(a => a.Id == r.Grupa.Id.ToString()).FirstOrDefaultAsync();
+
+            grupa.TrenutniBroj--;
+            var filter = Builders<Grupa>.Filter.Eq("Id",grupa.Id);
+            var update = Builders<Grupa>.Update.Set("TrenutniBroj",grupa.TrenutniBroj);
+            GrupaCollection.UpdateOne(filter,update);
+
+
+            var filter1 = Builders<Rezervacija>.Filter.Eq("Id",idRezervacije);
+            await RezervacijaCollection.DeleteOneAsync(filter1);
             return Ok("Obrisana rezervacija");
         }
     }

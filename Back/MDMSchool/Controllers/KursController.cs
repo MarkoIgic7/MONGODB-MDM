@@ -17,7 +17,6 @@ namespace MDMSchool.Controllers
     public class KursController : ControllerBase
     {
         private IMongoCollection<KursOsnovno> KursCollection;
-        private IMongoCollection<KursDetaljno> KursDetaljnoCollection;
          private IMongoCollection<Kategorija> KategorijaCollection;
          private IMongoCollection<Profesor> ProfesorCollection;
         //private readonly FilterDefinitionBuilder<KursOsnovno> filterBuilder = Builders<KursOsnovno>.Filter;
@@ -30,13 +29,11 @@ namespace MDMSchool.Controllers
             KategorijaCollection = collection1;
             var collection2 = db.GetCollection<Profesor>("Profesor");
             ProfesorCollection = collection2;
-            var collection3 = db.GetCollection<KursDetaljno>("KursDetaljno");
-            KursDetaljnoCollection = collection3;
         }
 
         [HttpPost]
-        [Route("DodajKurs/{naziv}/{jezik}/{kratakOpis}/{idKat}/{idProf}/{cena}/{duziOpis}/{termini}")]
-        public async Task<ActionResult> DodajKurs(String naziv, string jezik, string kratakOpis, string idKat, string idProf, string cena, string duziOpis, string termini)
+        [Route("DodajKurs/{naziv}/{jezik}/{kratakOpis}/{idKat}/{cena}/{duziOpis}")]
+        public async Task<ActionResult> DodajKurs(String naziv, string jezik, string kratakOpis, string idKat, string cena, string duziOpis)
         {
             int c = int.Parse(cena);
 
@@ -44,26 +41,14 @@ namespace MDMSchool.Controllers
             k.Naziv = naziv;
             k.Jezik=jezik;
             k.KratakOpis=kratakOpis;
+            k.Spojevi=new List<Spoj>();
             
             var kategorija=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
-            var profesor=ProfesorCollection.Find(p=>p.Id==idProf).FirstOrDefault();
             
             k.Kategorija=kategorija;
-            k.Profesor=profesor;
-
-            KursDetaljno kd=new KursDetaljno();
-            kd.Cena=c;
-            kd.DuziOpis=duziOpis;
-            kd.Termini=new List<String>();
-            string[] arr=termini.Split('#');
-            foreach( string a in arr)
-            {
-                kd.Termini.Add(a);
-            }
-            //kd.OsnovnoKurs=k;
-            KursDetaljnoCollection.InsertOne(kd);
-
-            k.DetaljnijeKurs=kd;
+            k.Cena=c;
+            k.DuziOpis=duziOpis;
+    
             await KursCollection.InsertOneAsync(k);
 
 
@@ -78,18 +63,7 @@ namespace MDMSchool.Controllers
             var filter = Builders<Kategorija>.Filter.Eq("Id",idKat);
             var kategorijaObject = JsonConvert.DeserializeObject<Kategorija>(json);
             await KategorijaCollection.ReplaceOneAsync(filter, kategorijaObject, new ReplaceOptions { IsUpsert = true });
-
-            profesor.Kursevi.Add(k);
-             var jsonSerializerSettings1 = new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                };
-             
-            var json1 = JsonConvert.SerializeObject(profesor, jsonSerializerSettings1);
-            var filter1 = Builders<Profesor>.Filter.Eq("Id",idProf);
-            var profesorObject = JsonConvert.DeserializeObject<Profesor>(json1);
-            await ProfesorCollection.ReplaceOneAsync(filter1, profesorObject, new ReplaceOptions { IsUpsert = true });
-            
+            //da probamo ovde sa kategorija umesto kategorijaObject
             return Ok(k);
 
         }
@@ -118,13 +92,11 @@ namespace MDMSchool.Controllers
             }
             else if(jezik=="nema")
             {
-                var kat=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
-                var kursevi=KursCollection.Find(p=>p.Kategorija==kat).ToList();
+                var kursevi=KursCollection.Find(p=>p.Kategorija.Id==idKat).ToList();
                 return Ok(kursevi);
             }
             else{
-                var kat=KategorijaCollection.Find(p=>p.Id==idKat).FirstOrDefault();
-                var kursevi=KursCollection.Find(p=>p.Kategorija==kat && p.Jezik==jezik).ToList();
+                var kursevi=KursCollection.Find(p=>p.Kategorija.Id==idKat && p.Jezik==jezik).ToList();
                 return Ok(kursevi);
 
             }

@@ -17,8 +17,9 @@ namespace Models
         public String Podaci { get; set; }
         public String StrucnaSprema { get; set; }
 
-        public Skola Skola { get; set; }
+       // public Skola Skola { get; set; }
 
-        public List<KursOsnovno> Kursevi { get; set; }
+        //public List<KursOsnovno> Kursevi { get; set; }
+        public List<Spoj> Spojevi { get; set; }
     }
 }
