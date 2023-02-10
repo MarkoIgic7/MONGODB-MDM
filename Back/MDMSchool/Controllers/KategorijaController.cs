@@ -27,6 +27,7 @@ namespace MDMSchool.Controllers
         {
             Kategorija k = new Kategorija();
             k.Uzrast = uzrast;
+            k.Kursevi=new List<KursOsnovno>();
 
             KategorijaCollection.InsertOne(k);
 

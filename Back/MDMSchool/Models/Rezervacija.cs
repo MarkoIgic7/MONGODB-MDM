@@ -13,7 +13,6 @@ namespace Models
 
         public DateTime VremeRezervacije { get; set; }
         public Boolean Status { get; set; }
-
         public MongoDBRef Korisnik { get; set; }
         public MongoDBRef OsnovniKurs { get; set; }
     }

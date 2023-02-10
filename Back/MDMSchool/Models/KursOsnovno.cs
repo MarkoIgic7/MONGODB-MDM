@@ -18,8 +18,11 @@ namespace Models
         public String Jezik { get; set; }
 
         public String KratakOpis { get; set; }
+
+        [JsonIgnore]
         public Profesor Profesor { get; set; }
         //ispada da jedan isti kurs ne moze da drzi vise profesora?
+        [JsonIgnore]
         public Kategorija Kategorija { get; set; }
         public KursDetaljno DetaljnijeKurs { get; set; }
         public List<MongoDBRef> Rezervacije { get; set; }

@@ -8,7 +8,7 @@ using Models;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
-
+using Newtonsoft.Json;
 
 namespace MDMSchool.Controllers
 {
@@ -67,19 +67,28 @@ namespace MDMSchool.Controllers
             await KursCollection.InsertOneAsync(k);
 
 
+            kategorija.Kursevi.Add(k);
 
-            
-            //kategorija.Kursevi.Add(k);
-            //await KategorijaCollection.ReplaceOneAsync(b => b.Id == kategorija.Id, kategorija);
-            //var kategorijaFilter = Builders<Kategorija>.Filter.Eq(b => b.Id, kategorija.Id);
-            //var update1 = Builders<Kategorija>.Update.AddToSet(b => b.Kursevi, k);
-            //KategorijaCollection.UpdateOne(kategorijaFilter,update1);
+            var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
 
-            //profesor.Kursevi.Add(k);
-            //ProfesorCollection.ReplaceOne(b => b.Id==profesor.Id,profesor);
-            //var profesorFilter = Builders<Profesor>.Filter.Eq(b => b.Id,profesor.Id);
-            //var update2 = Builders<Profesor>.Update.Add(b => b.Kursevi, k);
-            //ProfesorCollection.UpdateOne(profesorFilter,update2);
+            var json = JsonConvert.SerializeObject(kategorija, jsonSerializerSettings);
+            var filter = Builders<Kategorija>.Filter.Eq("Id",idKat);
+            var kategorijaObject = JsonConvert.DeserializeObject<Kategorija>(json);
+            await KategorijaCollection.ReplaceOneAsync(filter, kategorijaObject, new ReplaceOptions { IsUpsert = true });
+
+            profesor.Kursevi.Add(k);
+             var jsonSerializerSettings1 = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+             
+            var json1 = JsonConvert.SerializeObject(profesor, jsonSerializerSettings1);
+            var filter1 = Builders<Profesor>.Filter.Eq("Id",idProf);
+            var profesorObject = JsonConvert.DeserializeObject<Profesor>(json1);
+            await ProfesorCollection.ReplaceOneAsync(filter1, profesorObject, new ReplaceOptions { IsUpsert = true });
             
             return Ok(k);
 
@@ -119,7 +128,16 @@ namespace MDMSchool.Controllers
                 return Ok(kursevi);
 
             }
+        }
 
+        [HttpGet]
+        [Route("PreuzmiCeoKurs/{idKursa}")]
+        public async Task<ActionResult> PreuzmiCeoKurs(string idKursa)
+        {
+
+            //var kursOsnovno=KursCollection.Find(p=>p.Kurs.Id==idKursa).FirstOrDefault();
+
+            return Ok();
 
         }
 

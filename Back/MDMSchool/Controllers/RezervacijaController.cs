@@ -139,6 +139,7 @@ namespace MDMSchool.Controllers
         [Route("ObrisiRezervaciju/{idRezervacije}")]
         public async Task<ActionResult> ObrisiRezervaciju(String idRezervacije)
         {
+            //OVDE TREBA DA SE SMANJUJE TRENUTNI BROJ NEKOJ GRUPI 
             var filter = Builders<Rezervacija>.Filter.Eq("Id",idRezervacije);
             await RezervacijaCollection.DeleteOneAsync(filter);
             return Ok("Obrisana rezervacija");

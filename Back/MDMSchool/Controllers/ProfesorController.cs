@@ -30,6 +30,7 @@ namespace MDMSchool.Controllers
             k.Prezime=prezime;
             k.Podaci=podaci;
             k.StrucnaSprema=strucnaSprema;
+            k.Kursevi=new List<KursOsnovno>();
 
             ProfesorCollection.InsertOne(k);
 
