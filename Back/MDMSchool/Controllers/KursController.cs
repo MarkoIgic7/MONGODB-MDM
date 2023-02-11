@@ -93,7 +93,14 @@ namespace MDMSchool.Controllers
             else if(jezik=="nema")
             {
                 var kursevi=KursCollection.Find(p=>p.Kategorija.Id==idKat).ToList();
-                return Ok(kursevi);
+                if(kursevi==null)
+                {
+                    return BadRequest("Ne postoji rezultat pretrage");
+                }
+                else
+                {
+                    return Ok(kursevi);
+                }    
             }
             else{
                 var kursevi=KursCollection.Find(p=>p.Kategorija.Id==idKat && p.Jezik==jezik).ToList();
