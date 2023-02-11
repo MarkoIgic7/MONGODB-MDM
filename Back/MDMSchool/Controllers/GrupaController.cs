@@ -116,6 +116,8 @@ namespace MDMSchool.Controllers
                    lista.Add(new{ 
                     ProfesorIme=s.Profesor.Ime,
                     ProfesorPrezime=s.Profesor.Prezime,
+                    ProfesorPodaci=s.Profesor.Podaci,
+                    ProfesorStrucnaSprema=s.Profesor.StrucnaSprema,
                     GrupaId=g.Id,
                     Termini=g.Termini
                 });
