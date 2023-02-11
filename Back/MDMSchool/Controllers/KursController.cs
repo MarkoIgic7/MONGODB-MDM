@@ -160,6 +160,14 @@ namespace MDMSchool.Controllers
             return Ok(kurs);
 
         }
+        [HttpGet]
+        [Route("PreuzmiSveKurseve")]
+        public async Task<ActionResult> PreuzmiSveKurseve()
+        {
+            var kursevi = await KursCollection.Find(_=>true).ToListAsync();
+
+            return Ok(kursevi);
+        }
 
         
     }
