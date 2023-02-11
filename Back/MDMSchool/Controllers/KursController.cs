@@ -120,7 +120,8 @@ namespace MDMSchool.Controllers
                 DuziOpis = kurs.DuziOpis,
                 KratakOpis = kurs.KratakOpis,
                 IdKategorije = kurs.Kategorija.Id,
-                Uzrast = kurs.Kategorija.Uzrast
+                Uzrast = kurs.Kategorija.Uzrast,
+                Jezik = kurs.Jezik
             });
 
         }
