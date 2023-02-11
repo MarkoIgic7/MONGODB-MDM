@@ -35,8 +35,10 @@ namespace MDMSchool.Controllers
 
         [HttpPost]
         [Route("DodajGrupu/{naziv}/{tbr}/{maxbr}/{idKursa}/{idProf}/{termini}")]
-        public async Task<ActionResult> DodajGrupu(String naziv, int tbr, int maxbr, String idKursa, String idProf, String termini)
+        public async Task<ActionResult> DodajGrupu(String naziv, String tbr, String maxbr, String idKursa, String idProf, String termini)
         {
+            int TBR = int.Parse(tbr);
+            int MAXBR = int.Parse(maxbr);
             var k = KursCollection.Find(k => k.Id == idKursa).FirstOrDefault();
             var p = ProfesorCollection.Find(k => k.Id == idProf).FirstOrDefault();
             Spoj s=new Spoj();
@@ -72,8 +74,8 @@ namespace MDMSchool.Controllers
             //await ProfesorCollection.ReplaceOneAsync(p1=>p1.Id==idProf,p);
 
             Grupa g = new Grupa();
-            g.MaximalniBroj = maxbr;
-            g.TrenutniBroj = tbr;
+            g.MaximalniBroj = MAXBR;
+            g.TrenutniBroj = TBR;
             g.Naziv = naziv;
             g.Spoj=s;
             g.Termini=new List<String>();
