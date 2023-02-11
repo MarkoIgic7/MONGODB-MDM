@@ -140,8 +140,14 @@ namespace MDMSchool.Controllers
                 //lista.Add(new{})
             }
             
-            
-            return Ok(lista);
+            if(lista.Count()==0)
+            {
+                return BadRequest("Ne postoje rezervacije");
+            }
+            else
+            {
+                return Ok(lista);
+            }
         }
 
         [HttpDelete]
