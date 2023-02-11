@@ -123,7 +123,8 @@ namespace MDMSchool.Controllers
                     GrupaId=g.Id,
                     Termini=g.Termini,
                     TrenutniBroj = g.TrenutniBroj,
-                    MaximalniBroj = g.MaximalniBroj
+                    MaximalniBroj = g.MaximalniBroj,
+                    Naziv = g.Naziv
                 });
                 }
             }
