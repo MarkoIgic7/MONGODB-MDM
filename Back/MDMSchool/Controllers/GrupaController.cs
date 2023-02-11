@@ -124,5 +124,37 @@ namespace MDMSchool.Controllers
             return Ok(lista);
 
         }
+        [HttpPut]
+        [Route("IzmeniGrupu/{idGrupe}/{naziv}/{trBr}/{maxBr}/{termini}")]
+        public async Task<ActionResult> IzmeniGrupu(String idGrupe,String naziv,String trBr,String maxBr,String termini)
+        {
+            int trenutniBroj = int.Parse(trBr);
+            int maximalniBroj = int.Parse(maxBr);
+
+
+            var grupa = GrupaCollection.Find(g => g.Id==idGrupe).FirstOrDefault();
+            grupa.Naziv = naziv;
+            grupa.TrenutniBroj = trenutniBroj;
+            grupa.MaximalniBroj = maximalniBroj;
+
+            
+            grupa.Termini.Clear();
+            string[] niz = termini.Split("#");
+            foreach(string n in niz)
+            {
+                grupa.Termini.Add(n);
+            }
+
+            var filter = Builders<Grupa>.Filter.Eq(g => g.Id, idGrupe);
+            await GrupaCollection.ReplaceOneAsync(filter, grupa);
+
+            return Ok(new{
+                Id = grupa.Id,
+                Naziv = grupa.Naziv,
+                TrenutniBroj = grupa.TrenutniBroj,
+                MaximalniBroj = grupa.MaximalniBroj,
+                Termini = grupa.Termini
+            });
+        }
     }
 }
