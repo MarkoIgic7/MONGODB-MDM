@@ -121,7 +121,9 @@ namespace MDMSchool.Controllers
                     ProfesorPodaci=s.Profesor.Podaci,
                     ProfesorStrucnaSprema=s.Profesor.StrucnaSprema,
                     GrupaId=g.Id,
-                    Termini=g.Termini
+                    Termini=g.Termini,
+                    TrenutniBroj = g.TrenutniBroj,
+                    MaximalniBroj = g.MaximalniBroj
                 });
                 }
             }
