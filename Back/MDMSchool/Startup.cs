@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,7 @@ namespace MDMSchool
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MDMSchool", Version = "v1" });
             });
+            services.AddSignalR();
             services.AddCors(option=>{
                 option.AddPolicy("Cors",builder=>{
 
@@ -84,6 +86,7 @@ namespace MDMSchool
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<Notif>("/hubs/notif");
             });
         }
     }

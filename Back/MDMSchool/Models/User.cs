@@ -16,6 +16,8 @@ namespace Models
         
         public List<MongoDBRef> Rezervacije { get; set; }
 
+        public List<Notifikacija> Notifikacije { get; set; }
+
         public User()
         {
             Rezervacije = new List<MongoDBRef>();

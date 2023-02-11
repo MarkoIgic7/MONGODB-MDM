@@ -155,6 +155,39 @@ namespace MDMSchool.Controllers
             var filter = Builders<Grupa>.Filter.Eq(g => g.Id, idGrupe);
             await GrupaCollection.ReplaceOneAsync(filter, grupa);
 
+
+            //mora da se izmeni grupa i unutar svih spojeva gde se nalazi jer se VratiSveGrupe() vadi iz Spojeva
+            // Unutar Spoja ostane stara Grupa (neizmenjena)
+            
+            var spojevi = SpojCollection.Find(_ => true).ToList();
+            int index;
+            foreach(var s in spojevi)
+            {
+                foreach(Grupa g1 in s.Grupe)
+                {
+                    if(g1.Id==idGrupe)
+                    {
+                        //to je ta grupa koja treba da se izmeni
+                        g1.Naziv = naziv;
+                        g1.MaximalniBroj = maximalniBroj;
+                        g1.TrenutniBroj = trenutniBroj;
+
+                        g1.Termini.Clear();
+                        string[] niz1 = termini.Split("#");
+                        foreach(string n in niz1)
+                        {
+                            g1.Termini.Add(n);
+                        }
+
+                        
+
+                    }
+                }
+                var filterSpoj = Builders<Spoj>.Filter.Eq(s1 => s1.Id,s.Id);
+                await SpojCollection.ReplaceOneAsync(filterSpoj,s);
+
+            }
+            
             return Ok(new{
                 Id = grupa.Id,
                 Naziv = grupa.Naziv,

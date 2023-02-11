@@ -156,6 +156,8 @@ namespace MDMSchool.Controllers
 
             var filter = Builders<KursOsnovno>.Filter.Eq(x => x.Id, idKursa);
             await KursCollection.ReplaceOneAsync(filter, kurs);
+
+            
             
             return Ok(kurs);
 

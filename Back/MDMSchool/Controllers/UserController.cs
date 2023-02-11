@@ -31,6 +31,7 @@ namespace MDMSchool.Controllers
                 User u = new User();
                 u.Mail = username;
                 u.Password = password;
+                u.Notifikacije = new List<Notifikacija>();
                 UserCollection.InsertOne(u);
                 if(u.Mail=="admin@gmail.com")
                 {

@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hubs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
-
+using Newtonsoft.Json;
 
 namespace MDMSchool.Controllers
 {
@@ -18,10 +20,15 @@ namespace MDMSchool.Controllers
         private IMongoCollection<Rezervacija> RezervacijaCollection;
         private IMongoCollection<User> UserCollection;
         private IMongoCollection<Grupa> GrupaCollection;
+        private IMongoCollection<Spoj> SpojCollection;
+
+        private IMongoCollection<Notifikacija> NotifikacijaCollection;
 
         private IMongoDatabase db;
+
+        public IHubContext<Notif,INotifHub> NotifHub {get;set;}
         
-        public RezervacijaController(IMongoClient mc)
+        public RezervacijaController(IMongoClient mc, IHubContext<Notif,INotifHub> hub)
         {
             db = mc.GetDatabase("ProjekatMongo");
             var collection = db.GetCollection<Rezervacija>("Rezervacija");
@@ -30,6 +37,12 @@ namespace MDMSchool.Controllers
             UserCollection = col2;
             var coll4 = db.GetCollection<Grupa>("Grupa");
             GrupaCollection = coll4;
+            var coll5 = db.GetCollection<Spoj>("Spoj");
+            SpojCollection = coll5;
+            var coll6 = db.GetCollection<Notifikacija>("Notifikacije");
+            NotifikacijaCollection = coll6;
+
+            NotifHub = hub;
             
         }
 
@@ -166,6 +179,44 @@ namespace MDMSchool.Controllers
 
             var filter1 = Builders<Rezervacija>.Filter.Eq("Id",idRezervacije);
             await RezervacijaCollection.DeleteOneAsync(filter1);
+
+
+            // deo za notifikacije
+            //grupu imamo 159 linija
+            var korisnik = await UserCollection.Find(a => a.Id == r.Korisnik.Id.ToString()).FirstOrDefaultAsync();
+
+            //nalazenje kursa
+            var spojevi = SpojCollection.Find(_ => true).ToList();
+            string nazivKursa = "";
+            foreach(var s in spojevi)
+            {
+                foreach(Grupa g in s.Grupe)
+                {
+                    if(g.Id==grupa.Id)
+                    {
+                        nazivKursa = s.OsnovnoKurs.Naziv;
+                        break;
+                    }
+                }
+            }
+            //Console.WriteLine(spoj);
+            Console.WriteLine("Korisnik :" + korisnik.Mail);
+            Console.WriteLine("Grupa : " + grupa.Naziv);
+            Console.WriteLine("Kurs : "+ nazivKursa);
+            
+            
+            Notifikacija n = new Notifikacija();
+            n.Naziv = "Vasa rezervacija za kurs : "+nazivKursa+" i grupu : "+ grupa.Naziv+" je istekla !";
+            await NotifikacijaCollection.InsertOneAsync(n);
+
+            korisnik.Notifikacije.Add(n);
+
+            var filterUser = Builders<User>.Filter.Eq("Id",korisnik.Id);
+            var updateUser = Builders<User>.Update.Set("Notifikacije",korisnik.Notifikacije);
+            UserCollection.UpdateOne(filterUser,updateUser);
+
+            await NotifHub.Clients.Group(korisnik.Id).SendMessageToAll(n.Naziv,korisnik.Id);
+
             return Ok("Obrisana rezervacija");
         }
     }
