@@ -79,7 +79,7 @@ namespace MDMSchool.Controllers
             g.Naziv = naziv;
             g.Spoj=s;
             g.Termini=new List<String>();
-            string[] arr=termini.Split('#');
+            string[] arr=termini.Split('*');
             foreach( string a in arr)
             {
                 g.Termini.Add(a);
@@ -146,7 +146,7 @@ namespace MDMSchool.Controllers
 
             
             grupa.Termini.Clear();
-            string[] niz = termini.Split("#");
+            string[] niz = termini.Split("*");
             foreach(string n in niz)
             {
                 grupa.Termini.Add(n);
@@ -173,7 +173,7 @@ namespace MDMSchool.Controllers
                         g1.TrenutniBroj = trenutniBroj;
 
                         g1.Termini.Clear();
-                        string[] niz1 = termini.Split("#");
+                        string[] niz1 = termini.Split("*");
                         foreach(string n in niz1)
                         {
                             g1.Termini.Add(n);
