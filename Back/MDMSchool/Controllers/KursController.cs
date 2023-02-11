@@ -111,6 +111,8 @@ namespace MDMSchool.Controllers
 
             //ako bi se vratilo samo ovo(kursOsnovno odozgo) ne bi vratio kategoriju zbog JsonIgnore-a
             //zbog toga sam stavio anonomni tip
+
+            //MOZDA DA PROBAMO DA STAVIMO NA DRUGOM MESTU JSONIGNORE?
             var kurs = await KursCollection.Find(k => k.Id == idKursa).FirstOrDefaultAsync();
 
             return Ok(new{
@@ -122,6 +124,25 @@ namespace MDMSchool.Controllers
                 IdKategorije = kurs.Kategorija.Id,
                 Uzrast = kurs.Kategorija.Uzrast
             });
+
+        }
+
+        [HttpPut]
+        [Route("IzmeniKurs/{idKursa}/{naziv}/{jezik}/{kraciOpis}/{cena}/{duziOpis}")]
+        public async Task<ActionResult> IzmeniKurs(string idKursa, string naziv, string jezik, string kraciOpis, string cena, string duziOpis)
+        {
+
+            var kurs = await KursCollection.Find(k => k.Id == idKursa).FirstOrDefaultAsync();
+            kurs.Naziv=naziv;
+            kurs.Jezik=jezik;
+            kurs.KratakOpis=kraciOpis;
+            kurs.Cena=int.Parse(cena);
+            kurs.DuziOpis=duziOpis;
+
+            var filter = Builders<KursOsnovno>.Filter.Eq(x => x.Id, idKursa);
+            await KursCollection.ReplaceOneAsync(filter, kurs);
+            
+            return Ok(kurs);
 
         }
 
