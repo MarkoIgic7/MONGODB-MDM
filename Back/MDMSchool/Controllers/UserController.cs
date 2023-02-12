@@ -38,7 +38,8 @@ namespace MDMSchool.Controllers
                     return Ok(new{
                     Uloga = "Admin",
                     Mail = u.Mail,
-                    Password = u.Password
+                    Password = u.Password,
+                    Id = u.Id
                     });
                 }
                 else
@@ -46,7 +47,8 @@ namespace MDMSchool.Controllers
                     return Ok(new{
                     Uloga = "Korisnik",
                     Mail = u.Mail,
-                    Password = u.Password
+                    Password = u.Password,
+                    Id = u.Id
                 });
                 }
                 
@@ -77,7 +79,8 @@ namespace MDMSchool.Controllers
                     return Ok(new{
                     Uloga = "Admin",
                     Mail = m.Mail,
-                    Password = m.Password
+                    Password = m.Password,
+                    Id = m.Id
                 });
                 }
                 return Ok(new{
