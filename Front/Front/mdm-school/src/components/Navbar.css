@@ -1,0 +1,87 @@
+.NavbarStyle{
+    background:linear-gradient(90deg,#090909 50%, #d35b24 100%);
+    height: 80px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top:0;
+    z-index: 2;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+
+}
+
+.Naslov{
+    font-family: 'Open Sans', sans-serif;
+    font-size:xx-large; 
+}
+
+
+.labelaUsername1{
+    position:absolute;
+    left:0;
+    margin-left: 20px;
+    cursor:pointer;
+}
+.username
+{
+    position:absolute;
+    right:0;
+    margin-right: 180px;
+    
+}
+
+.dugmiciPrijava{
+    position: absolute;
+    right:0;
+    margin-right: 20px;
+    
+}
+
+.odjaviSe
+{
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    background-color: #ffffff;
+    font-size: 18px;
+    color: rgb(15, 15, 15);
+    min-width:10vw;
+    margin-right: 10px;
+    position: absolute;
+    right:0;
+}
+
+.odjaviSe:hover{
+    padding: 8px 20px;
+    transition: all 0.3s ease-out;
+    background: #D0C8CD;
+    color: #363031;
+    transition: 250ms;
+}
+
+.labelaUsername{
+    position:absolute;
+    left:0;
+    margin-left: 30px;
+}
+
+.btnDodajProgram{
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+    color: rgb(15, 15, 15);
+    min-width:10vw;
+    margin-right: 230px;
+    position: absolute;
+    right:0;
+    
+}

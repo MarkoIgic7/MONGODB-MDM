@@ -1,0 +1,618 @@
+body{
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:100%;
+    height:100%;
+    }
+    .infoDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .GrupaDiv{
+      margin-right: 10px;
+        width: 80%;
+background-color: #f7f5f5;
+        height: fit-content;
+        border-radius: 10px;
+        box-shadow: 4px 5px 7px #eee7e7;
+        font-weight: 500;
+        font-size: larger;
+        padding: 30px;
+        color: black;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+        border: 1px solid black;
+        
+    }
+    .kursInformacije{
+      display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+    }
+    .terminiUl{
+      padding: 0;
+      color: #ce641e;
+    }
+    .jezikDiv{
+      background-color: #ce641e;
+      width: 80%;
+      border-radius: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-bottom: 10px;
+      padding-top: 10px;
+      box-shadow: 4px 5px 7px #eee7e7;
+      color: white;
+      font-weight: 500;
+      font-size: x-large;
+    }
+    .prijavaInfo
+    {
+      font-size: smaller;
+      margin: 5px;
+    }
+    .terminiDiv,.profesoriDiv{
+        margin-bottom: 20px;
+        width: 80%;
+background-color: #f7f5f5;
+        height: fit-content;
+        border-radius: 10px;
+        box-shadow: 4px 5px 7px #e2d8d8;
+        font-weight: 500;
+        font-size: larger;
+        padding: 30px;
+        color: black;
+        border: 1px solid#000000;
+        
+    }
+    .opisSkola{
+        margin: 10px;
+        width: 80%;
+background-color: #f7f5f5;
+        height: fit-content;
+        border-radius: 10px;
+        box-shadow: 4px 5px 7px #eee7e7;
+        font-weight: 500;
+        font-size: larger;
+        padding: 30px;
+        
+    }
+    .kontaktDiv{
+      height: 100px;
+      background-color: #ce641e;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .kontakt{
+      color: white;
+      font-weight: 500;
+      font-size: larger;
+
+    }
+    .imeSkole{
+        
+        border-bottom: 1px solid #d35b24;
+        width: 500px;
+        justify-items: center;
+    }
+    .termini{
+      font-weight: 600;
+      font-size: x-large;
+    }
+    .infoProfNaslov{
+      margin-top: 0px;
+    }
+    .prof{
+      margin: 5px;
+    }
+    .grupa
+    {
+      font-weight: 800;
+      font-size:xx-large;
+      color: #e1792a;
+      margin-bottom: 15px;
+      margin-top: 0px;
+    }
+    .cenaKursDiv
+    {
+      font-weight: 600;
+      font-size: x-large;
+      margin: 5px;
+    }
+    
+    .slika{
+        background-image: 
+        url(
+        "../../public/slika.jpg");
+    
+      width:100%;
+      height:500px;
+      background-position: center;
+      background-size: cover;
+      margin:auto;
+      color: white;
+      
+    }
+    .Pocetna{
+    position: relative;
+    
+    }
+    
+      .KarticePretrage{
+        margin-left: 20px;
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 50px;
+        
+      }
+    
+      .KarticaPretraga{
+        display:flex;
+        flex-direction: column;
+        width:20%;
+        min-height: 200px;
+        margin-top: 50px;
+        margin-right: 50px;
+        background:linear-gradient(90deg,rgb(240, 208, 166) 50%, rgb(226, 194, 152) 100%);
+        justify-content: center;
+        align-content: center;
+        border-radius: 15px;
+        color:#d35b24;
+        cursor:pointer;
+        font-size: large;
+     
+    
+      }
+    
+      .KarticaPretraga:hover{
+        color:black;
+        background:linear-gradient(90deg,rgb(241, 204, 154) 50%, rgb(226, 186, 134) 100%);
+        border-style: solid;
+        border-color: rgb(128, 63, 10);
+        border-width: 2px;
+        transition: all 0.3s ease-out;
+        font-size: larger;
+        
+      }
+      .PretragaForma{
+        display:flex;
+        flex-direction: column;
+        max-width: 600px;
+        height:fit-content;
+        background-color: rgb(243, 222, 195);
+        border-radius: 20px;
+        margin: auto;
+        margin-bottom: 25px;
+        border-color: rgb(190, 148, 123);
+        border-radius: 15px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: rgb(190, 148, 123);
+        
+      }
+      .redTermini{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-self: center;
+        align-items: center;
+      }
+      .izmeniDiv{
+        display: flex;
+        flex-direction: row;
+      }
+      .btnIzmeniGrupu
+      {
+        padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: large;
+    background-color: white;
+      }
+      .btnIzmeniKurs{
+        padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: larger;
+      }
+      .btnIzmeniKurs:hover{
+        padding: 8px 20px;
+        transition: all 0.3s ease-out;
+        background: #ecdccc;
+        color: #363031;
+        transition: 250ms;
+    }
+    .btnIzmeniGrupu:hover{
+      padding: 8px 20px;
+      transition: all 0.3s ease-out;
+      background: #ecdccc;
+      color: #363031;
+      transition: 250ms;
+  }
+    :root{
+      --primary: #e1792a;
+  }
+
+  .btnIzmeniKurs--primary{
+    background-color: var(--primary);
+    box-shadow: 1px 1px 5px #926958;
+}
+.btnIzmeniKurs--outline{
+  background-color: transparent;
+  color: #0a0a0a;
+  padding: 8px 20px;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  transition: all 0.3s ease-out;
+}
+.btnIzmeniKurs--medium{
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 18px;
+  color:rgb(12, 11, 11);
+}
+      .pojedinacniTermin{
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        justify-content: space-around;
+        color: black;
+        font-weight: 500;
+      }
+      .unosTermina{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-self: center;
+        justify-items: center;
+        align-items: center;
+      }
+    
+      .PretragaForma1{
+        display:flex;
+        flex-direction: column;
+        max-width: 800px;
+        height:fit-content;
+        background-color: rgb(236, 202, 158);
+        border-radius: 20px;
+        margin: auto;
+        margin-bottom: 70px;
+        
+      }
+      .rezervisiBtn
+      {
+        width: fit-content;
+        height: 45px;
+        border-radius: 10px;
+        font-size: medium;
+        border: none;
+        background:#d35b24;
+        color:white;
+        font-size: larger;
+        font-weight: 500;
+        margin-top: 10px;
+        align-self: center;
+        cursor: pointer;
+      }
+      .Rezervacija{
+        display: flex;
+        justify-content: center;
+      }
+    
+      .red1{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-self: center;
+        max-width: 65%;
+        text-align: left;
+        font-size: large;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position:relative;
+      }
+    
+      .lblPerfectMatch{
+        width:60%;
+        max-width: 300px;
+      }
+    
+      .Programi{
+        padding:20px;
+        margin-bottom: 20px;
+        font-size: larger;
+        background:linear-gradient(90deg,#d35b24 50%, #ce641e 100%);
+        color:white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    
+      }
+    
+      .red{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-self: center;
+        max-width: 50%;
+        font-size: large;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    
+      .KategorijaSelect{
+        width : 200px;
+        height: 30px;
+        min-width: 70px;
+        min-height: 30px;
+        border-radius: 5px;
+        flex-shrink: 1;
+    
+    }
+    .KategorijaSelect1{
+      width : 200px;
+      height: 30px;
+      min-width: 70px;
+      min-height: 30px;
+      border-radius: 5px;
+      flex-shrink: 1;
+      position:absolute;
+      right:0;
+      bottom:0;
+    
+    }
+    .dugmeNaucneOblasti{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-self: center;
+        max-width: 50%;
+        font-size: large;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: #d35b24;
+        background:linear-gradient(90deg,#d35b24 50%, #ce641e 100%);
+        color:white;
+        font-size: medium;
+        cursor:pointer;
+        
+    }
+    
+    .dugmeNaucneOblasti:hover{
+        font-size: large;
+        color:black;
+        transition: all 0.3s ease-out;
+    }
+    
+    .dugmePretrazi{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-self: center;
+        max-width: 50%;
+        font-size: large;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: #d35b24;
+        background:linear-gradient(90deg,#d35b24 50%, #ce641e 100%);
+        color:white;
+        font-size: medium;
+        cursor:pointer;
+    
+    }
+    .dugmeObrisiRez{
+      display: flex;
+      align-self: center;
+      max-width: 50%;
+      font-size: large;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border-color: #d35b24;
+      background:linear-gradient(90deg,#d35b24 50%, #ce641e 100%);
+      color:white;
+      font-size: medium;
+      cursor:pointer;
+    }
+    .dugmePretrazi:hover{
+        font-size: large;
+        color:black;
+        transition: all 0.3s ease-out;
+    }
+    
+    ._modal, ._overlay{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+        z-index: 3;
+    }
+    ._overlay{
+        background: rgba(49,49,49,0.4);
+    }
+    ._modal-content{
+        height: fit-content;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 10px;
+        position: absolute;
+        font-size:medium;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background:linear-gradient(90deg,#d35b24 50%, #d35b24 100%);
+        color: #fff;
+        min-height: 200px;
+        min-width: 400px;
+        max-width: 600px;
+        z-index: 4;
+        font-size: large;
+    }
+    
+    .OdaberiteOblasti{
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .Oblasti{
+        padding: 10px;
+        margin-bottom: 20px;
+        
+    }
+    
+    .btnOK{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-self: center;
+        width: 20%;
+        font-size: large;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: #d66b39;
+        background:linear-gradient(90deg,#d4825c 50%, #db9362 100%);
+        color:white;
+        font-size: medium;
+        cursor:pointer;
+    
+    }
+    
+    .lblOblast{
+        margin-left: 15px;
+    }
+    
+    .cekiranaPoljaLista{
+        display:table;
+        list-style: none;
+        margin:auto;
+        justify-content: center;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+    }
+    .izkljuciTermin{
+      width: fit-content;
+      height: fit-content;
+      border-radius: 30px;
+      background-color: white;
+    }
+    
+    .cekiranoPolje{
+        margin-bottom: 5px;
+        border-radius: 10px;
+        background-color: rgb(212, 140, 72);
+        width: 80px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    
+    }
+    
+    .listaNot{
+      margin: 10px;
+       margin-left: 300px;
+       margin-right: 300px;
+background-color: #f7f5f5;
+        height: fit-content;
+        border-radius: 10px;
+        box-shadow: 4px 5px 7px #eee7e7;
+        font-weight: 500;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        justify-self: center;
+        justify-content: center;
+        
+    }
+    .notifDiv{
+      width: fit-content;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      justify-self: center;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      border: 1px dotted rgb(212, 140, 72) ;
+      background-color:#d66b39;
+      color: white;
+      font-weight: 600;
+      
+    }
+    .InputIznos{
+      width:30%;
+      border-radius: 3px;
+      height: 20px;
+    }
+    .InputIznos1{
+      height:50%;
+      width:30%;
+      border-radius: 3px;
+      position:absolute;
+      right:0;
+      bottom:0;
+      
+    }
+    .icon-button__badge {
+      position: absolute;
+      margin-top:-30px;
+      margin-left:60px;
+      width: 20px;
+      height: 20px;
+      background: red;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+    .icon-button{
+      margin-bottom:10px;
+      display: inline;
+      justify-content: center;
+      justify-items: center;
+      
+    }
+    .fa-solid fa-bell fa-2x{
+      margin: 0px;
+    }
