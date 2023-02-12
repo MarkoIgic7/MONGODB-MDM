@@ -164,8 +164,7 @@ namespace MDMSchool.Controllers
             var updateTermini = Builders<Grupa>.Update.Set("Termini",grupa.Termini);
             GrupaCollection.UpdateOne(filterGrupa,updateTermini);
             
-            var filter = Builders<Grupa>.Filter.Eq(g => g.Id, idGrupe);
-            await GrupaCollection.ReplaceOneAsync(filter, grupa);
+           
 
 
             //mora da se izmeni grupa i unutar svih spojeva gde se nalazi jer se VratiSveGrupe() vadi iz Spojeva
