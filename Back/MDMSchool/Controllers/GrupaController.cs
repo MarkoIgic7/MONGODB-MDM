@@ -152,6 +152,18 @@ namespace MDMSchool.Controllers
                 grupa.Termini.Add(n);
             }
 
+            var filterGrupa = Builders<Grupa>.Filter.Eq("Id",grupa.Id);
+            var updateNaziv = Builders<Grupa>.Update.Set("Naziv",grupa.Naziv);
+            GrupaCollection.UpdateOne(filterGrupa,updateNaziv);
+
+            var updateTrBr = Builders<Grupa>.Update.Set("TrenutniBroj",grupa.TrenutniBroj);
+            GrupaCollection.UpdateOne(filterGrupa,updateTrBr);
+
+            var updateMaxBr = Builders<Grupa>.Update.Set("MaximalniBroj",grupa.MaximalniBroj);
+            GrupaCollection.UpdateOne(filterGrupa,updateMaxBr);          
+            var updateTermini = Builders<Grupa>.Update.Set("Termini",grupa.Termini);
+            GrupaCollection.UpdateOne(filterGrupa,updateTermini);
+            
             var filter = Builders<Grupa>.Filter.Eq(g => g.Id, idGrupe);
             await GrupaCollection.ReplaceOneAsync(filter, grupa);
 
