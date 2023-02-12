@@ -219,5 +219,14 @@ namespace MDMSchool.Controllers
 
             return Ok("Obrisana rezervacija");
         }
+
+        [HttpGet]
+        [Route("PreuzmiSveNotifikacijeKorisnika/{idKorisnika}")]
+        public async Task<ActionResult> PreuzmiSveNotifikacijeKorisnika(String idKorisnika)
+        {
+            var korisnik = UserCollection.Find(p=>p.Id==idKorisnika).FirstOrDefault();
+            return Ok(korisnik.Notifikacije);
+            
+        }
     }
 }
