@@ -12,6 +12,10 @@ namespace Hubs
         {
             await Clients.Group(idKorisnika).SendMessageToAll(Naziv,idKorisnika);
              
+        }
+        public async Task JoinGroup(string idKorisnika)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId,idKorisnika);
         }       
     }
 }

@@ -9,6 +9,7 @@ namespace Hubs
     public interface INotifHub
     {
          Task SendMessageToAll(String naziv,String idKorisnika);
+         Task JoinGroup(string idKorisnika);
         
     }
 }
