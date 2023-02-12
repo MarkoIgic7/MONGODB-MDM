@@ -65,8 +65,10 @@ namespace MDMSchool.Controllers
                     //ovde da se doda provera da li je taj korisnik vec napravio rezervaciju za istu grupu
                     foreach(var r1 in rezervacije)
                     {
-                        var user1 = await UserCollection.Find(u =>u.Id==r1.Korisnik.Id.ToString()).FirstOrDefaultAsync();
-                        var grupa1 = await GrupaCollection.Find(g => g.Id == r1.Grupa.Id.ToString()).FirstOrDefaultAsync();
+                        var user1 = await UserCollection.Find(u =>user.Id==r1.Korisnik.Id.ToString()).FirstOrDefaultAsync();
+                        var grupa1 = await GrupaCollection.Find(g => grupa.Id == r1.Grupa.Id.ToString()).FirstOrDefaultAsync();
+                        //Console.WriteLine(user1.Mail);
+                        //Console.WriteLine(grupa1.Naziv);
                         if(user1!=null && grupa1!=null)
                         {
                             postoji = true;
